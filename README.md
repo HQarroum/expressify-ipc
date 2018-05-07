@@ -5,8 +5,8 @@
 # expressify-ipc
 > An Expressify strategy enabling RESTful application over a local socket transport.
 
-[![Build Status](https://travis-ci.org/HQarroum/expressify-mqtt.svg?branch=master)](https://travis-ci.org/HQarroum/expressify-mqtt)
-[![Code Climate](https://codeclimate.com/github/HQarroum/expressify-mqtt/badges/gpa.svg)](https://codeclimate.com/github/HQarroum/expressify-mqtt)
+[![Build Status](https://travis-ci.org/HQarroum/expressify-ipc.svg?branch=master)](https://travis-ci.org/HQarroum/expressify-ipc)
+[![Code Climate](https://codeclimate.com/github/HQarroum/expressify-ipc/badges/gpa.svg)](https://codeclimate.com/github/HQarroum/expressify-ipc)
 
 Current version: **1.0.0**
 
@@ -40,9 +40,6 @@ In order to use `expressify-ipc`, you need to create an instance of the strategy
 ### Creating a client
 
 ```js
-// Injecting the `mqtt.js` library.
-const mqtt = require('mqtt');
-
 // Creating the client instance.
 const client = new Expressify.Client({
   strategy: new IpcStrategy({ namespace: 'foo' })
@@ -54,9 +51,6 @@ const client = new Expressify.Client({
 ### Creating a server
 
 ```js
-// Injecting the `mqtt.js` library.
-const mqtt = require('mqtt');
-
 // Creating the server instance.
 const server = new Expressify.Server({
   strategy: new IpcStrategy({ mqtt, topic: 'foo' })
@@ -64,7 +58,7 @@ const server = new Expressify.Server({
 
 // Listening for incoming requests.
 server.listen().then(() => {
-  console.log(`[+] The server is listening on mount point '${server.strategy.opts.topic}' !`);
+  console.log(`[+] The server is listening on namespace '${server.strategy.opts.topic}' !`);
 });
 ```
 

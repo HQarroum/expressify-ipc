@@ -1,25 +1,13 @@
 const Expressify = require('../../../expressify');
-const MqttStrategy = require('../../');
-const iot = require('aws-iot-device-sdk');
-const opts = require('../common/config');
-
-/**
- * Connection state.
- */
-let connected = false;
-
-/**
- * Initiating the MQTT connection.
- */
-const mqtt = iot.device(opts);
+const IpcStrategy = require('../../');
 
 /**
  * Creating the Expressify client.
  */
 const client = new Expressify.Client({
-  strategy: new MqttStrategy({
-    mqtt: mqtt,
-    topic: 'expressify'
+  strategy: new IpcStrategy({
+    endpoint: 'remote.storage.server',
+    namespace: 'foo'
   })
 });
 
@@ -57,28 +45,8 @@ const sendRequests = () => {
 };
 
 /**
- * Listening for a connection event.
+ * Sending requests.
  */
-mqtt.on('connect', () => {
-  connected = true;
-  console.log(`[+] Connected to AWS IoT, sending requests ...`);
-  // Issuing the requests against the remote expressify server.
-  sendRequests().then(() => {
-    console.log('[+] Received 3/3 responses from the server !');
-    mqtt.end();
-  }).catch(console.error);
-});
-
-/**
- * Listening for error events.
- */
-mqtt.on('error', (err) => console.log(`[!] Caught MQTT error ${err}`));
-
-/**
- * Closing the MQTT connection when leaving the application.
- */
-process.on('SIGINT', () => {
-  console.log('[+] Closing the MQTT connection ...');
-  connected ? mqtt.end(false, process.exit) : process.exit(0);
-  connected = false;
-});
+sendRequests().then(() => {
+  console.log('[+] Received 3/3 responses from the server !');
+}).catch(console.error);
