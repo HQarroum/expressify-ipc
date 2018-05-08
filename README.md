@@ -31,18 +31,20 @@ npm install --save expressify-ipc
  - Supports Linux, MacOS and Windows.
  - Uses Unix or Windows local sockets for faster communication.
  - Supports observation of resources through local sockets.
- - 
 
 ## Usage
 
-In order to use `expressify-ipc`, you need to create an instance of the strategy and pass it to an expressify client or server. You can pass to the constructor of this strategy an optional `namespace` variable which is used on Unix to partition Unix sockets in case you have multiple instances of an application running.
+In order to use `expressify-ipc`, you need to create an instance of the strategy and pass it to an expressify client or server. You must pass to the constructor of this strategy an optional `namespace` variable which is used on Unix to partition Unix sockets, as well as an `endpoint` which uniquely identifies the server.
 
 ### Creating a client
 
 ```js
 // Creating the client instance.
 const client = new Expressify.Client({
-  strategy: new IpcStrategy({ namespace: 'foo' })
+  strategy: new IpcStrategy({
+    endpoint: 'expressify.server',
+    namespace: 'foo'
+  })
 });
 ```
 
@@ -53,7 +55,10 @@ const client = new Expressify.Client({
 ```js
 // Creating the server instance.
 const server = new Expressify.Server({
-  strategy: new IpcStrategy({ mqtt, topic: 'foo' })
+  strategy: new IpcStrategy({
+    endpoint: 'expressify.server',
+    namespace: 'foo'
+  })
 });
 
 // Listening for incoming requests.
