@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" />
+  <img width="300" src="assets/logo.png" />
 </p>
 
 # expressify-ipc
