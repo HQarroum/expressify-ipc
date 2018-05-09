@@ -16,9 +16,7 @@ const enforceOptions = (opts) => {
  * been received from a remote server.
  */
 const onServerMessage = function (data) {
-  try {
-    this.emit('message', { data });
-  } catch (e) {}
+  this.emit('message', { data });
 };
 
 /**
@@ -26,11 +24,9 @@ const onServerMessage = function (data) {
  * been received from a remote client.
  */
 const onClientMessage = function (data, socket) {
-  try {
-    // Saving the transaction identifier.
-    this.clients[data.transactionId] = socket;
-    this.emit('message', { data });
-  } catch (e) {}
+  // Saving the transaction identifier.
+  this.clients[data.transactionId] = socket;
+  this.emit('message', { data });
 };
 
 /**
@@ -40,16 +36,18 @@ const onClientMessage = function (data, socket) {
  */
 const connect = function () {
   let server = ipc.of[this.opts.endpoint];
-  if (server) return Promise.resolve(server);
-  return new Promise((resolve, reject) => ipc.connectTo(this.opts.endpoint, () => {
-    (server = ipc.of[this.opts.endpoint]).on('connect', () => {
-      server.on(this.opts.namespace, this.onServerMessage);
-      console.log('connected');
-      resolve(server);
-    }).on('disconnect', () => {
-      console.log('disconnected');
-    }).on('error', reject);
-  }));
+  // Checking whether a connection already exists, or
+  // establishing a new connection otherwise.
+  return (server ? Promise.resolve(server) : new Promise((resolve, reject) =>
+    ipc.connectTo(this.opts.endpoint, () => {
+      (server = ipc.of[this.opts.endpoint]).on('connect', () => {
+        // Subscribing to namespace events.
+        server.on(this.opts.namespace, this.onServerMessage);
+        resolve(server);
+      })
+      .on('disconnect', () => server.off(this.opts.namespace, this.onServerMessage))
+      .on('error', reject);
+  })));
 };
 
 /**
@@ -112,7 +110,9 @@ class Strategy extends EventEmitter {
     this.subscribers = {};
     this.onClientMessage = onClientMessage.bind(this);
     this.onServerMessage = onServerMessage.bind(this);
+    // Listening to `ping` requests.
     this.on('ping', (o) => o.res.send(200));
+    // Removing `ipc` logs.
     ipc.config.silent = typeof this.opts.debug !== 'undefined' ? this.opts.debug : true;
   }
 
@@ -151,15 +151,6 @@ class Strategy extends EventEmitter {
   unsubscribe(req, res) {
     // Replying a succeeded operation.
     res.send({ topic: req.resource });
-  }
-
-  /**
-   * Called back on a `ping` request.
-   * @param {*} req the expressify request.
-   * @param {*} res the expressify response.
-   */
-  ping(req, res) {
-    res.send(200);
   }
 
   /**
