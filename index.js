@@ -58,8 +58,7 @@ const connect = function () {
 const query = function (request) {
   return this.queue = this.queue
     .then(() => connect.call(this))
-    .then((server) => server.emit(this.opts.namespace, request))
-    .then(() => this.queries++);
+    .then((server) => server.emit(this.opts.namespace, request));
 };
 
 /**
@@ -87,8 +86,9 @@ const reply = function (response) {
  * @param {*} event the event to dispatch.
  */
 const notify = function (event) {
-  ipc.server.broadcast(this.opts.namespace, event);
-  return (Promise.resolve());
+  return (Promise.resolve(
+    ipc.server.broadcast(this.opts.namespace, event)
+  ));
 };
 
 /**
@@ -138,7 +138,7 @@ class Strategy extends EventEmitter {
    * @param {*} res the expressify response.
    */
   subscribe(req, res) {
-    // Replying a succeeded operation.
+    // Replying with a success response.
     res.send({ topic: req.resource });
   }
 
@@ -149,7 +149,7 @@ class Strategy extends EventEmitter {
    * @param {*} res the expressify response.
    */
   unsubscribe(req, res) {
-    // Replying a succeeded operation.
+    // Replying with a success response.
     res.send({ topic: req.resource });
   }
 
@@ -179,8 +179,9 @@ class Strategy extends EventEmitter {
    * has been completed.
    */
   close() {
-    ipc.server.stop();
-    return (Promise.resolve());
+    return (Promise.resolve(
+      ipc.server.stop()
+    ));
   }
 };
 
