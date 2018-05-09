@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/HQarroum/expressify-ipc#readme",
   "dependencies": {
-    "node-ipc": "^9.1.1",
-    "timed-cache": "^1.1.0"
+    "node-ipc": "^9.1.1"
   }
 }

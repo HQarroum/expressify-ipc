@@ -112,7 +112,7 @@ sendRequests().then(() => {
  * IPC connection when leaving the application.
  */
 process.on('SIGINT', () => {
-  /*console.log('[+] Closing the IPC connection and unsubscribing from resources ...');
+  console.log('[+] Closing the IPC connection and unsubscribing from resources ...');
 
   Promise.all(
     Object.keys(resources).map((k) => client.unsubscribe(k, onEvent))
@@ -120,13 +120,11 @@ process.on('SIGINT', () => {
   
   /**
    * Unsubscription is done, closing the connection.
-   *
-  .then((res) => mqtt.end(false, process.exit))
+   */
+  .then(process.exit)
 
   /**
    * In case of an error, we also close the connection.
-   *
-  .catch(() => mqtt.end(false, process.exit));*/
-
-  process.exit();
+   */
+  .catch(process.exit);
 });

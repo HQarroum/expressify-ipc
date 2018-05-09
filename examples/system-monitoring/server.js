@@ -90,6 +90,11 @@ server.get('/system/network', (req, res) => {
  */
 server.listen().then(() => {
   console.log(`[+] The server is listening for incoming requests on namespace '${server.strategy.opts.namespace}' !`);
+  // Creating the interval loop notifying clients of
+  // changes in the local system model.
+  intervals = domains.map((d) => setInterval(() => {
+    system[d].get().then((r) => server.publish(`/system/${d}`, r));
+  }, 2 * 1000));
 });
 
 /**
@@ -98,7 +103,7 @@ server.listen().then(() => {
 process.on('SIGINT', () => {
   console.log('[+] Closing the IPC connection ...');
   // Clears all created intervals.
-  //intervals.forEach((i) => clearInterval(i));
+  intervals.forEach((i) => clearInterval(i));
   // Closing the connection.
-  //server.close().then(() => connected ? mqttClient.end(false, process.exit) : process.exit(0));
+  server.close().then(process.exit);
 });
