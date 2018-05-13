@@ -30,8 +30,8 @@ const resources = {
  */
 const client = new Expressify.Client({
   strategy: new IpcStrategy({
-    endpoint: 'system.monitoring',
-    namespace: 'foo'
+    endpoint: 'monitoring.server',
+    namespace: 'system'
   })
 });
 

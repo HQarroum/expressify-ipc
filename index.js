@@ -104,7 +104,7 @@ class Strategy extends EventEmitter {
   constructor(opts) {
     super();
     enforceOptions(opts);
-    this.opts = opts || {};
+    this.opts = opts;
     this.clients = {};
     this.queue = Promise.resolve();
     this.subscribers = {};
@@ -161,7 +161,7 @@ class Strategy extends EventEmitter {
    * has been completed.
    */
   listen() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       ipc.config.id = this.opts.endpoint;
       ipc.serve(() => {
         ipc.server.on(this.opts.namespace, this.onClientMessage);
@@ -179,9 +179,11 @@ class Strategy extends EventEmitter {
    * has been completed.
    */
   close() {
-    return (Promise.resolve(
-      ipc.server.stop()
-    ));
+    // Closing any running server.
+    ipc.server && ipc.server.stop();
+    // Closing any open client connection.
+    ipc.disconnect(this.opts.endpoint);
+    return (Promise.resolve());
   }
 };
 
