@@ -138,6 +138,8 @@ class Strategy extends EventEmitter {
    * @param {*} res the expressify response.
    */
   subscribe(req, res) {
+    // Notifying the subscription.
+    this.emit('subscription.added', req);
     // Replying with a success response.
     res.send({ topic: req.resource });
   }
@@ -149,6 +151,8 @@ class Strategy extends EventEmitter {
    * @param {*} res the expressify response.
    */
   unsubscribe(req, res) {
+    // Notifying the unsubscription.
+    this.emit('subscription.removed', req);
     // Replying with a success response.
     res.send({ topic: req.resource });
   }
