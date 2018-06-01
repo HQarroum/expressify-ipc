@@ -24,7 +24,7 @@ const domains = [
  */
 const server = new Expressify.Server({
   strategy: new IpcStrategy({
-    endpoint: 'system.monitoring',
+    endpoint: 'monitoring.server',
     namespace: 'system'
   })
 });

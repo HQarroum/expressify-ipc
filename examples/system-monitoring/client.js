@@ -114,6 +114,9 @@ sendRequests().then(() => {
 process.on('SIGINT', () => {
   console.log('[+] Closing the IPC connection and unsubscribing from resources ...');
 
+  /**
+   * Unsubscribing from previously subscribes `resources`.
+   */
   Promise.all(
     Object.keys(resources).map((k) => client.unsubscribe(k, onEvent))
   )
