@@ -40,6 +40,8 @@ In order to use `expressify-ipc`, you need to create an instance of the strategy
 
 ### Creating a client
 
+The below example shows you how to create an instance of an Expressify client using the `ipc` strategy.
+
 ```js
 // Creating the client instance.
 const client = new Expressify.Client({
@@ -51,6 +53,8 @@ const client = new Expressify.Client({
 ```
 
 ### Creating a server
+
+The below example shows you how to create an instance of an Expressify server using the `ipc` strategy.
 
 ```js
 // Creating the server instance.
@@ -69,7 +73,7 @@ server.listen().then(() => {
 
 ## Examples
 
-Different functional examples involving the `expressify-ipc` strategy are available in the [examples](./examples) directory. Every examples comes with a `README.md` file detailing the use-case and the usage of the example in question.
+Different functional examples involving the `expressify-ipc` strategy are available in the [examples](./examples) directory.
 
 ## See also
 
