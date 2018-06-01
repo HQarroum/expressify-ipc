@@ -1,12 +1,11 @@
 <p align="center">
-  <img width="300" src="assets/logo.png" />
+  <img width="250" src="assets/logo.png" />
 </p>
 
 # expressify-ipc
 > An Expressify strategy enabling RESTful application over a local socket transport.
 
-[![Build Status](https://travis-ci.org/HQarroum/expressify-ipc.svg?branch=master)](https://travis-ci.org/HQarroum/expressify-ipc)
-[![Code Climate](https://codeclimate.com/github/HQarroum/expressify-ipc/badges/gpa.svg)](https://codeclimate.com/github/HQarroum/expressify-ipc)
+[![CodeFactor](https://www.codefactor.io/repository/github/hqarroum/expressify-ipc/badge/master)](https://www.codefactor.io/repository/github/hqarroum/expressify-ipc/overview/master)
 
 Current version: **1.0.0**
 
