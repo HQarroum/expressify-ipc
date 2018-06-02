@@ -43,7 +43,7 @@ In order to use `expressify-ipc`, you need to create an instance of the strategy
 The below example shows you how to create an instance of an Expressify client using the `ipc` strategy.
 
 ```js
-// Creating the client instance.
+// Creating the `client` instance.
 const client = new Expressify.Client({
   strategy: new IpcStrategy({
     endpoint: 'expressify.server',
@@ -57,7 +57,7 @@ const client = new Expressify.Client({
 The below example shows you how to create an instance of an Expressify server using the `ipc` strategy.
 
 ```js
-// Creating the server instance.
+// Creating the `server` instance.
 const server = new Expressify.Server({
   strategy: new IpcStrategy({
     endpoint: 'expressify.server',
@@ -71,9 +71,34 @@ server.listen().then(() => {
 });
 ```
 
+### Closing `expressify-ipc`
+
+Since the `expressify-ipc` module uses IPC local socket communication, it is required to make sure that, when done using the server or the client, you properly release the resources that have been allocated to them.
+
+### Closing the server
+
+Here, you simply have to call the `.close()` API on the server instance as you would usually do it with any expressify strategy. THis will close the local socket on which the strategy is communicating.
+
+```js
+server.close().then(() => console.log('Server instance closed'));
+```
+
+### Closing the client
+
+When done with a client instance, you need to explicitely close it using the `.close()` API on the client instance.
+
+```js
+client.close().then(() => console.log('Client instance closed'));
+```
+
+> If you do not close the client on Node.js, the event loop will continue running since the local socket associated with the strategy which the client is using is still opened.
+
 ## Examples
 
-Different functional examples involving the `expressify-ipc` strategy are available in the [examples](./examples) directory.
+Two functional examples involving the `expressify-ipc` strategy are available in the [examples](./examples) directory :
+
+ - [Remote storage](https://github.com/HQarroum/expressify-ipc/tree/master/examples/remote-storage) - Demonstrates how to use `expressify-ipc` to expose a REST interface on the server which can store in memory a set of key-value pairs, and on the client on how to query this service remotely over local sockets.
+ - [System monitoring](https://github.com/HQarroum/expressify-ipc/tree/master/examples/system-monitoring) - Shows you how to use `expressify-ipc` to expose system metrics on the server and to display them to the user on the client.
 
 ## See also
 
