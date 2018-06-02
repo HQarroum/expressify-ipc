@@ -93,6 +93,8 @@ client.close().then(() => console.log('Client instance closed'));
 
 > If you do not close the client on Node.js, the event loop will continue running since the local socket associated with the strategy which the client is using is still opened.
 
+See how the client is properly closed in the [examples](./examples) associated with the `expressify-ipc` strategy.
+
 ## Examples
 
 Two functional examples involving the `expressify-ipc` strategy are available in the [examples](./examples) directory :

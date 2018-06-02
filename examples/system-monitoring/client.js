@@ -104,6 +104,9 @@ sendRequests().then(() => {
   if (program.live) {
     // Subscribing to events.
     return Object.keys(resources).forEach((k) => client.subscribe(k, onEvent));
+  } else {
+    // Closing the client.
+    client.close().then(process.exit);
   }
 }).catch(console.error);
 
@@ -120,6 +123,11 @@ process.on('SIGINT', () => {
   Promise.all(
     Object.keys(resources).map((k) => client.unsubscribe(k, onEvent))
   )
+
+  /**
+   * Releasing the resources allocated to the client.
+   */
+  .then(() => client.close())
   
   /**
    * Unsubscription is done, closing the connection.
@@ -129,5 +137,5 @@ process.on('SIGINT', () => {
   /**
    * In case of an error, we also close the connection.
    */
-  .catch(process.exit);
+  .catch(process.exit)
 });

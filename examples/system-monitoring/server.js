@@ -94,7 +94,7 @@ server.listen().then(() => {
   // changes in the local system model.
   intervals = domains.map((d) => setInterval(() => {
     system[d].get().then((r) => server.publish(`/system/${d}`, r));
-  }, 2 * 1000));
+  }, 5 * 1000));
 });
 
 /**

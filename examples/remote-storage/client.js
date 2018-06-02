@@ -1,4 +1,4 @@
-const Expressify = require('../../../expressify');
+const Expressify  = require('../../../expressify');
 const IpcStrategy = require('../../');
 
 /**
@@ -45,8 +45,17 @@ const sendRequests = () => {
 };
 
 /**
+ * Closes the client's underlying resources.
+ */
+const close = () => client.close().then(() => console.log('[+] Client properly closed'));
+
+/**
  * Sending requests.
  */
 sendRequests().then(() => {
   console.log('[+] Received 3/3 responses from the server !');
-}).catch(console.error);
+  return (close());
+}).catch((err) => {
+  console.error(`[!] ${err}`);
+  return (close());
+}).then(process.exit);

@@ -1,4 +1,4 @@
-const Expressify = require('../../../expressify');
+const Expressify  = require('../../../expressify');
 const IpcStrategy = require('../../');
 
 /**
