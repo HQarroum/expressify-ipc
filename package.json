@@ -1,6 +1,6 @@
 {
   "name": "expressify-ipc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An Expressify strategy enabling RESTful application over a local socket transport.",
   "main": "index.js",
   "directories": {

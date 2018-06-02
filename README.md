@@ -7,7 +7,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/hqarroum/expressify-ipc/badge/master)](https://www.codefactor.io/repository/github/hqarroum/expressify-ipc/overview/master)
 
-Current version: **1.0.2**
+Current version: **1.0.3**
 
 Lead Maintainer: [Halim Qarroum](mailto:hqm.post@gmail.com)
 

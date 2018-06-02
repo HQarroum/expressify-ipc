@@ -1,5 +1,5 @@
 const program = require('commander');
-const Expressify = require('../../../expressify');
+const Expressify = require('expressify-js');
 const IpcStrategy = require('../../');
 const dump = require('./lib/dump');
 
